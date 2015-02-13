@@ -50,7 +50,29 @@ class AnalyticsController < ApplicationController
 
   private
   def analytic_params
-    params.require(:analytic).permit(:title, :date1, :date2, :android_key, :iphone_key, :ipad_key)
+
+    analyticparameter = {:title => @analytic.title,
+                      :date1 => @analytic.date1,
+                      :date2 => @analytic.date2,
+                      :android_key => @analytic.android_key,
+                      :iphone_key => @analytic.iphone_key,
+                      :ipad_key => @analytic.ipad_key,
+                      :iPhoneUser=> nil,
+                      :iPadUser=> nil,
+                      :androidUser=> nil,
+                      :mwUser=> nil,
+                      :iPhoneSessions=> nil,
+                      :iPadSessions=> nil,
+                      :androidSessions=> nil,
+                      :mwSessions=> nil,
+                      :iPhoneMedianSL=> nil,
+                      :iPadMedianSL=> nil,
+                      :androidMedianSL=> nil,
+                      :iPhoneAvgActiveUsers=> nil,
+                      :iPadAvgActiveUsers=> nil,
+                      :androidAvgActiveUsers=> nil}
+
+    params.require(:analytic).permit(analyticparameter)
   end
 
 

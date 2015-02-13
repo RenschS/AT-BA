@@ -11,10 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141216135532) do
+ActiveRecord::Schema.define(version: 20150213204233) do
 
-  create_table "analytics", force: true do |t|
-    t.string   "title"
+  create_table "analytics", force: :cascade do |t|
+    t.string   "title",                 limit: 255
     t.text     "date1"
     t.text     "date2"
     t.datetime "created_at"
@@ -22,22 +22,6 @@ ActiveRecord::Schema.define(version: 20141216135532) do
     t.text     "android_key"
     t.text     "iphone_key"
     t.text     "ipad_key"
-  end
-
-  create_table "comments", force: true do |t|
-    t.string   "commenter"
-    t.text     "body"
-    t.integer  "tool_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "comments", ["tool_id"], name: "index_comments_on_tool_id"
-
-  create_table "events", force: true do |t|
-    t.string   "name"
-    t.string   "startdate"
-    t.string   "enddate"
     t.integer  "iPhoneUser"
     t.integer  "iPadUser"
     t.integer  "androidUser"
@@ -48,18 +32,23 @@ ActiveRecord::Schema.define(version: 20141216135532) do
     t.integer  "mwSessions"
     t.integer  "iPhoneMedianSL"
     t.integer  "iPadMedianSL"
-    t.string   "androidMedianSL"
+    t.integer  "androidMedianSL"
     t.integer  "iPhoneAvgActiveUsers"
     t.integer  "iPadAvgActiveUsers"
     t.integer  "androidAvgActiveUsers"
-    t.integer  "analytic_id"
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.string   "commenter",  limit: 255
+    t.text     "body"
+    t.integer  "tool_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "events", ["analytic_id"], name: "index_events_on_analytic_id"
+  add_index "comments", ["tool_id"], name: "index_comments_on_tool_id"
 
-  create_table "tools", force: true do |t|
+  create_table "tools", force: :cascade do |t|
     t.text     "title"
     t.datetime "created_at"
     t.datetime "updated_at"

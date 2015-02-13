@@ -1,6 +1,32 @@
-<h1>Analyse des Events ... im Zeitraum von ... bis ...</h1>
+<h1>Analyse des Events <%= @analytic.title %>  im Zeitraum von <%= @analytic.date1 %> bis <%= @analytic.date2 %></h1>
 
-<%= render "events/event" %>
+
+<table>
+
+  <tr>
+    <th>Nutzer/Downloads</th>
+  </tr>
+</table>
+
+<table style="border-style: dashed">
+  <tr>
+    <th>IPhone</th>
+    <th>IPad</th>
+    <th>Android</th>
+    <th>Mobile Website</th>
+  </tr>
+
+  <tr>
+    <td>#### HIER DIE ELEMENTE AUS EVENTARRAY AUSGEBEN    </td>
+    <td>    </td>
+    <td>    </td>
+    <td>    </td>
+  </tr>
+
+  <tr>
+    <td>Gesamt: </td>
+  </tr>
+</table>
 
 <br>
 <br>
