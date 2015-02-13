@@ -1,0 +1,21 @@
+<h1>Willkommen zum Analysebereich</h1>
+<br>
+  
+  <Table>
+    <tr>
+      <th>Was möchten sie tun ?</th>      
+    </tr>
+    <tr>
+      <td><p><%= link_to 'Vorhandene Tools listen', controller: 'tools' %></p></td>
+    </tr>
+    <tr>      
+      <td><p><%= link_to 'Neues Tool hinzufügen(DEV)', new_tool_path %></p></td>
+    </tr>
+    <tr>
+      <td><p><%= link_to 'Bisherige Analysen anzeigen', controller: 'analytics' %></p></td>
+    </tr>
+    <tr>
+      <td><p><%= link_to 'Analyse durchführen', new_analytic_path %></p></td>
+    </tr>
+
+  </Table>

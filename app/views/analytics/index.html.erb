@@ -1,0 +1,26 @@
+
+<h1>Alle Analysen im Überblick</h1>
+
+<p><%= link_to 'Neue Analyse', new_analytic_path %></p>
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Startdate</th>
+    <th>Enddate</th>
+    <!-- <th>Text</th> -->
+  </tr>
+
+  <% @analytic.each do |analytic| %>
+      <tr >
+        <td><%= analytic.title %></td>
+        <td><%= analytic.date1 %></td>
+        <td><%= analytic.date2 %></td>
+        <td><%= link_to 'Zeigen', analytic_path(analytic) %></td>
+        <td><%= link_to 'Bearbeiten', edit_analytic_path(analytic) %></td>
+        <td><%= link_to 'Löschen', analytic_path(analytic),
+                        method: :delete, data: { confirm: 'Bist du sicher?' } %></td>
+      </tr>
+  <% end %>
+</table>
+
+<p><%= link_to 'Startseite', controller: 'welcome' %></p>

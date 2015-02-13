@@ -1,0 +1,23 @@
+
+
+<h1>Alle Tools im Überblick</h1>
+
+<p><%= link_to 'New tool', new_tool_path %></p>
+<table>
+  <tr>
+    <th>Title</th>
+    <!-- <th>Text</th> -->
+  </tr>
+ 
+  <% @tools.each do |tool| %>
+    <tr >
+      <td><%= tool.title %></td>
+      <td><%= link_to 'Zeigen', tool_path(tool) %></td>
+      <td><%= link_to 'Bearbeiten', edit_tool_path(tool) %></td>
+      <td><%= link_to 'Löschen', tool_path(tool),
+                      method: :delete, data: { confirm: 'Bist du sicher?' } %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to 'Startseite', controller: 'welcome' %></p>

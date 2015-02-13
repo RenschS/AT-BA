@@ -1,0 +1,14 @@
+<p>
+  <strong>Title:</strong>
+  <%= @tool.title %>
+</p>
+
+<h2>Kommentare</h2>
+<%= render @tool.comments %>
+
+
+<h2>Füge ein Kommentar hinzu:</h2>
+<%= render "comments/form" %>
+
+<%= link_to 'Zurück', tools_path %>
+| <%= link_to 'Bearbeiten', edit_tool_path(@tool) %>

@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>analytics in columns</title>
+
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+		<style type="text/css">
+${demo.css}
+		</style>
+		<script type="text/javascript">
+$(function () {
+    $('#container').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: ''
+        },
+        subtitle: {
+            text: ''
+        },
+        xAxis: {
+            categories: [
+                'Downloads',
+                'Sessions'
+            ]
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'entities'
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [{
+            name: 'iPhone',
+            data: [<%=@dnloads_iPhone%>, <%=@sessions_iPhone%>]
+
+        }, {
+            name: 'iPad',
+            data: [<%=@dnloads_iPad%>, <%=@sessions_iPad%>]
+
+        }, {
+            name: 'Android',
+            data: [<%=@dnloads_Android%>, <%=@sessions_Android%>]
+
+        }]
+    });
+});
+		</script>
+	<link href="css/main.css" media="screen" rel="stylesheet" type="text/css" />		
+	</head>
+	<body>
+		<script src="js/highcharts.js"></script>
+		<script src="js/modules/exporting.js"></script>
+		<div id="page_wrapper">
+			<h2>Analytics on demand</h2>
+			<div class="box">
+				<p>Please enter the timeframe</p>
+				<form action="/form" method="post">
+				  
+				  <label for="analytics_from">from:</label>
+				  <input id="analytics_from" name="analytics_from" value="<%=@@analytics_from%>" type="date" required ="true" min="2014-01-01" max="<%= Time.now.strftime("%Y-%m-%d")%>">
+
+				  <label for="analytics_to">to:</label>
+				  <input id="analytics_to" name="analytics_to" value="<%=@@analytics_to%>" type="date" required="true" min="2014-01-01" max="<%= Time.now.strftime("%Y-%m-%d")%>">
+
+				  <br/>
+				  <input type="submit">
+				</form>
+				<% if !@dnloads_iPad.nil? %>
+					<p class="box_summary">Total:<br />
+					Downloads: <%= (@dnloads_iPhone+@dnloads_iPad+@dnloads_Android)%><br />
+					Sessions: <%= (@sessions_iPhone+@sessions_iPad+@sessions_Android)%><br />
+					<a class="btn" href="/form/download?analytics_from=<%=@@analytics_from%>&analytics_to=<%=@@analytics_to%>">download csv's</a>
+					</p>
+				<% end %>
+			</div>
+			<% if !@dnloads_iPad.nil? %>
+				<div id="container" class="box" style="width: 400px; height: 400px; "></div>
+			<% end %>
+		</div>
+	</body>
+</html>
