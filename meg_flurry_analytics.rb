@@ -6,7 +6,7 @@ class MegFlurryAnalytics
   class InvalidCredentials<StandardError; end
   attr_reader :api_access_code, :iphone_api_key,
               :ipad_api_key, :android_api_key,
-              :logger
+              :logger,:iphone_data
 
   def initialize(options)
 

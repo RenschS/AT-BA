@@ -51,13 +51,26 @@ class AnalyticsController < ApplicationController
   private
   def analytic_params
 
+    iphone =  @analytic.iphone_key
+    ipad =  @analytic.ipad_key
+    android =  @analytic.ipad_key
+
+
+    options = {
+        "flurry_iphone_api_key"  => iphone,
+        "flurry_ipad_api_key"    => ipad,
+        "flurry_android_api_key" => android
+      }
+
+    @para = MegFlurryAnalytics.new(options)
+
     analyticparameter = {:title => @analytic.title,
                       :date1 => @analytic.date1,
                       :date2 => @analytic.date2,
                       :android_key => @analytic.android_key,
                       :iphone_key => @analytic.iphone_key,
                       :ipad_key => @analytic.ipad_key,
-                      :iPhoneUser=> nil,
+                      :iPhoneUser=> @para.iphone_data,
                       :iPadUser=> nil,
                       :androidUser=> nil,
                       :mwUser=> nil,
@@ -75,7 +88,10 @@ class AnalyticsController < ApplicationController
     params.require(:analytic).permit(analyticparameter)
   end
 
+  def withAnalyticparams(analyticpara)
 
+
+  end
 
 
 
