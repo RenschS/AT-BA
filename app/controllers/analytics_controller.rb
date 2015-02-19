@@ -1,4 +1,5 @@
 class AnalyticsController < ApplicationController
+  require './meg_flurry_analytics'
 
   def new
     @analytic = Analytic.new
@@ -6,6 +7,12 @@ class AnalyticsController < ApplicationController
 
   def create
     @analytic = Analytic.new(analytic_params)
+    if @analytic.nil?
+      puts "Analyse konnte nicht erstellt werden"
+    else
+      #Funktion analyse
+      @analytic = getAnalyticPara(@analytic)
+    end
 
     if @analytic.save
 
@@ -51,26 +58,14 @@ class AnalyticsController < ApplicationController
   private
   def analytic_params
 
-    iphone =  @analytic.iphone_key
-    ipad =  @analytic.ipad_key
-    android =  @analytic.ipad_key
-
-
-    options = {
-        "flurry_iphone_api_key"  => iphone,
-        "flurry_ipad_api_key"    => ipad,
-        "flurry_android_api_key" => android
-      }
-
-    @para = MegFlurryAnalytics.new(options)
-
+=begin
     analyticparameter = {:title => @analytic.title,
                       :date1 => @analytic.date1,
                       :date2 => @analytic.date2,
                       :android_key => @analytic.android_key,
                       :iphone_key => @analytic.iphone_key,
                       :ipad_key => @analytic.ipad_key,
-                      :iPhoneUser=> @para.iphone_data,
+                      :iPhoneUser=> nil,
                       :iPadUser=> nil,
                       :androidUser=> nil,
                       :mwUser=> nil,
@@ -84,15 +79,26 @@ class AnalyticsController < ApplicationController
                       :iPhoneAvgActiveUsers=> nil,
                       :iPadAvgActiveUsers=> nil,
                       :androidAvgActiveUsers=> nil}
+=end
 
-    params.require(:analytic).permit(analyticparameter)
+    params.require(:analytic).permit(:title,:date1,:date2,:android_key,:iphone_key,:ipad_key)
   end
 
-  def withAnalyticparams(analyticpara)
+  def getAnalyticPara(analyticobject)
+    options = {
+        "flurry_iphone_api_key"  => analyticobject.iphone_key,
+        "flurry_ipad_api_key"    => analyticobject.ipad_key,
+        "flurry_android_api_key" =>  analyticobject.ipad_key
+    }
+
+    @para = MegFlurryAnalytics.new(options)
 
 
+    analyticobject.iPhoneUser = @para.iphone(from=analyticobject.date1, to=analyticobject.date2)
+    analyticobject.iPadUser = @para.ipad(from=analyticobject.date1, to=analyticobject.date2)
+    analyticobject.androidUser = @para.android(from=analyticobject.date1, to=analyticobject.date2)
+    analyticobject
   end
-
 
 
 end
