@@ -1,5 +1,6 @@
 class AnalyticsController < ApplicationController
   require './meg_flurry_analytics'
+  attr_reader :analytic
 
   def new
     @analytic = Analytic.new
@@ -11,7 +12,7 @@ class AnalyticsController < ApplicationController
       puts "Analyse konnte nicht erstellt werden"
     else
       #Funktion analyse
-      @analytic = getAnalyticPara(@analytic)
+      getAnalyticPara
     end
 
     if @analytic.save
@@ -84,20 +85,21 @@ class AnalyticsController < ApplicationController
     params.require(:analytic).permit(:title,:date1,:date2,:android_key,:iphone_key,:ipad_key)
   end
 
-  def getAnalyticPara(analyticobject)
+  #führt die eigentliche Analysefunktion aus, die Daten der Drittanbieter besorgt
+  def getAnalyticPara
     options = {
-        "flurry_iphone_api_key"  => analyticobject.iphone_key,
-        "flurry_ipad_api_key"    => analyticobject.ipad_key,
-        "flurry_android_api_key" =>  analyticobject.ipad_key
+        "flurry_iphone_api_key"  => @analytic.iphone_key,
+        "flurry_ipad_api_key"    => @analytic.ipad_key,
+        "flurry_android_api_key" =>  @analytic.ipad_key
     }
+
 
     @para = MegFlurryAnalytics.new(options)
 
+    @analytic.iPhoneUser = @para.iphone(from=@analytic.date1, to=@analytic.date2)
+    @analytic.iPadUser = @para.ipad(from=@analytic.date1, to=@analytic.date2)
+    @analytic.androidUser = @para.android(from=@analytic.date1, to=@analytic.date2)
 
-    analyticobject.iPhoneUser = @para.iphone(from=analyticobject.date1, to=analyticobject.date2)
-    analyticobject.iPadUser = @para.ipad(from=analyticobject.date1, to=analyticobject.date2)
-    analyticobject.androidUser = @para.android(from=analyticobject.date1, to=analyticobject.date2)
-    analyticobject
   end
 
 
